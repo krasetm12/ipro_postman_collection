@@ -7,20 +7,20 @@
 	},
 	"item": [
 		{
-			"name": "https://idev.etm.ru/api/ipro/user/login",
+			"name": "login",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"session has value\", function(){\r",
-							"    try{\r",
-							"        var my_session=pm.response.json.get(\"data.session\");\r",
-							"        \r",
-							"        console.log(my_session);\r",
-							"    }\r",
-							"    catch(e){console.log(\"some problem with session\"+e)}\r",
-							"});"
+							"// Session management using session tokens\r",
+							"var sessionToken;\r",
+							"pm.test(\"Login and session management\", function () {\r",
+							"    // Perform login and extract session token from the response\r",
+							"    sessionToken = pm.response.json().data.session;\r",
+							"    pm.collectionVariables.set(\"sessionToken\", sessionToken);\r",
+							"});\r",
+							"console.log(sessionToken);"
 						],
 						"type": "text/javascript"
 					}
@@ -45,12 +45,10 @@
 					]
 				},
 				"url": {
-					"raw": "https://idev.etm.ru/api/ipro/user/login",
+					"raw": "https://{{host1}}/api/ipro/user/login",
 					"protocol": "https",
 					"host": [
-						"idev",
-						"etm",
-						"ru"
+						"{{host1}}"
 					],
 					"path": [
 						"api",
@@ -63,12 +61,13 @@
 			"response": []
 		},
 		{
-			"name": "https://idev.etm.ru/api/ipro/user/session/get?session-id=b270fcde-a652-f2aa-b814-d8b0c874c372",
+			"name": "session",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
+							"//check session\r",
 							"pm.test('valid response format json', function () {\r",
 							"    pm.response.to.have.jsonBody();\r",
 							"});\r",
@@ -100,12 +99,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://idev.etm.ru/api/ipro/user/session/get?session-id=b270fcde-a652-f2aa-b814-d8b0c874c372",
+					"raw": "https://{{host1}}/api/ipro/user/session/get?session-id={{sessionToken}}",
 					"protocol": "https",
 					"host": [
-						"idev",
-						"etm",
-						"ru"
+						"{{host1}}"
 					],
 					"path": [
 						"api",
@@ -117,12 +114,1495 @@
 					"query": [
 						{
 							"key": "session-id",
-							"value": "b270fcde-a652-f2aa-b814-d8b0c874c372"
+							"value": "{{sessionToken}}"
 						}
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "infocity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check infocity\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/city?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"city"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "class810",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check class810\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/class/810?len=3",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"class",
+						"810"
+					],
+					"query": [
+						{
+							"key": "len",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check profile\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/user/profile?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"user",
+						"profile"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sumbasket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check sumbasket\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/basket/sum?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"basket",
+						"sum"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alert-count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check alertcount\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/user/alert/count?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"user",
+						"alert",
+						"count"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "infocitycode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check infocitycode\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/city/78?{{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"city",
+						"78"
+					],
+					"query": [
+						{
+							"key": "{{sessionToken}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bonusinfo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check bonusinfo\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/bonus/info?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"bonus",
+						"info"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "infostores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check infostores\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/stores?session-id={{sessionToken}}&class17=%D0%A1%D0%97%D0%A1%D0%9F%D0%91",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"stores"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "class17",
+							"value": "%D0%A1%D0%97%D0%A1%D0%9F%D0%91"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consignee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check sign- consignee\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/client/sign?sg-code=171&session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"client",
+						"sign"
+					],
+					"query": [
+						{
+							"key": "sg-code",
+							"value": "171"
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "client-banks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check infostores\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/client/banks?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"client",
+						"banks"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "catalog-subcat_brands",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check subcat_brands\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/catalog/subcat_brands?val=%D0%B0%D0%BD%D0%BA%D0%B5%D1%80",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"catalog",
+						"subcat_brands"
+					],
+					"query": [
+						{
+							"key": "val",
+							"value": "%D0%B0%D0%BD%D0%BA%D0%B5%D1%80"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "catalog-val",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check catalog-val\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1500ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/catalog?val=%D0%B0%D0%BD%D0%BA%D0%B5%D1%80",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"catalog"
+					],
+					"query": [
+						{
+							"key": "val",
+							"value": "%D0%B0%D0%BD%D0%BA%D0%B5%D1%80"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basket-add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check basket_add\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 2000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "78",
+							"type": "text"
+						},
+						{
+							"key": "gds",
+							"value": "9091760-0-0",
+							"type": "text"
+						},
+						{
+							"key": "val",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/basket/add",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"basket",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basket-skl",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check basket\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/basket?skl=&session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"basket"
+					],
+					"query": [
+						{
+							"key": "skl",
+							"value": ""
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basket-order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check basket-order\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/basket/order?skl=&goods=&session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"basket",
+						"order"
+					],
+					"query": [
+						{
+							"key": "skl",
+							"value": ""
+						},
+						{
+							"key": "goods",
+							"value": ""
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "client/table/warehouse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check client/table/warehouse\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/client/table/warehouse?rows=1000&cli-code=60004392&session-id={{sessionToken}}&sidx=clt_desc&sord=asc",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"client",
+						"table",
+						"warehouse"
+					],
+					"query": [
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "cli-code",
+							"value": "60004392"
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "sidx",
+							"value": "clt_desc"
+						},
+						{
+							"key": "sord",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "client/table/division",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check client/table/division\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/client/table/division?rows=1000&cli-code=60004392&session-id={{sessionToken}}&sidx=clt_desc&sord=asc",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"client",
+						"table",
+						"division"
+					],
+					"query": [
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "cli-code",
+							"value": "60004392"
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "sidx",
+							"value": "clt_desc"
+						},
+						{
+							"key": "sord",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "client/table/order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check client/table/order\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/client/table/order?rows=1000&cli-code=60004392&session-id={{sessionToken}}&sidx=clt_desc&sord=asc",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"client",
+						"table",
+						"order"
+					],
+					"query": [
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "cli-code",
+							"value": "60004392"
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "sidx",
+							"value": "clt_desc"
+						},
+						{
+							"key": "sord",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "goods/9091760/remains",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check goods/9091760/remains\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/goods/9091760/remains?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"goods",
+						"9091760",
+						"remains"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "goods/9091760/packs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check goods/9091760/packs\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/goods/9091760/packs?skl=&session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"goods",
+						"9091760",
+						"packs"
+					],
+					"query": [
+						{
+							"key": "skl",
+							"value": ""
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "goods/9091760/prices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check goods/9091760/prices\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/goods/9091760/prices?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"goods",
+						"9091760",
+						"prices"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basket/specification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check basket/specification\r",
+							"var docName;\r",
+							"pm.test(\"create specification\", function () {\r",
+							"    // Perform login and extract session token from the response\r",
+							"    docName = pm.response.json().data.docName;\r",
+							"    pm.collectionVariables.set(\"docName\", docName);\r",
+							"});\r",
+							"console.log(docName);\r",
+							"\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/basket/specification?tovzak=&i_dogovor=000120230525093554&i_accnt=&skl=4120&i_gruz=&reqDisc=&pr_object=&session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"basket",
+						"specification"
+					],
+					"query": [
+						{
+							"key": "tovzak",
+							"value": ""
+						},
+						{
+							"key": "i_dogovor",
+							"value": "000120230525093554"
+						},
+						{
+							"key": "i_accnt",
+							"value": ""
+						},
+						{
+							"key": "skl",
+							"value": "4120"
+						},
+						{
+							"key": "i_gruz",
+							"value": ""
+						},
+						{
+							"key": "reqDisc",
+							"value": ""
+						},
+						{
+							"key": "pr_object",
+							"value": ""
+						},
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "info/param/invoice_status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check info/param/invoice_status\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/param/invoice_status",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"param",
+						"invoice_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invoice_doc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check invoice_doc\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/invoice?session-id={{sessionToken}}&page=1&rows=20&sidx=inv-date&sord=desc&usr-inv-num=997%2F0827366",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"invoice"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "20"
+						},
+						{
+							"key": "sidx",
+							"value": "inv-date"
+						},
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "usr-inv-num",
+							"value": "997%2F0827366"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "info/object/60004392",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check info/object/60004392\r",
+							"pm.test('valid response format json', function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"status code 200 in body of json\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.equal(200);\r",
+							"});\r",
+							"pm.test('Response is valid JSON', function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"pm.test('Response time is less than 1000ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{host1}}/api/ipro/info/object/60004392?session-id={{sessionToken}}",
+					"protocol": "https",
+					"host": [
+						"{{host1}}"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"object",
+						"60004392"
+					],
+					"query": [
+						{
+							"key": "session-id",
+							"value": "{{sessionToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host1",
+			"value": ""
+		},
+		{
+			"key": "sessionToken",
+			"value": ""
+		},
+		{
+			"key": "docName",
+			"value": ""
 		}
 	]
 }
