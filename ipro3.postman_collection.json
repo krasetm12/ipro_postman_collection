@@ -1477,7 +1477,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{host1}}/api/ipro/invoice?session-id={{sessionToken}}&page=1&rows=20&sidx=inv-date&sord=desc&usr-inv-num=997%2F0827366",
+					"raw": "https://{{host1}}/api/ipro/invoice?session-id={{sessionToken}}&page=1&rows=20&sidx=inv-date&sord=desc&usr-inv-num={{docName}}",
 					"protocol": "https",
 					"host": [
 						"{{host1}}"
@@ -1510,7 +1510,7 @@
 						},
 						{
 							"key": "usr-inv-num",
-							"value": "997%2F0827366"
+							"value": "{{docName}}"
 						}
 					]
 				}
@@ -1594,7 +1594,7 @@
 	"variable": [
 		{
 			"key": "host1",
-			"value": ""
+			"value": "idev.etm.ru"
 		},
 		{
 			"key": "sessionToken",
