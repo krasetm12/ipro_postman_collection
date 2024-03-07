@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "075bb719-99ff-4bb2-8362-672852bb86cd",
+		"_postman_id": "a6257ab8-c2a8-4537-a13e-2a0e49281cc3",
 		"name": "ipro3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12934881",
-		"_collection_link": "https://warped-crescent-784998.postman.co/workspace/335a6d73-ec43-485b-8ceb-df6b301c8007/collection/12934881-075bb719-99ff-4bb2-8362-672852bb86cd?action=share&source=collection_link&creator=12934881"
+		"_exporter_id": "33400242",
+		"_collection_link": "https://warped-crescent-784998.postman.co/workspace/335a6d73-ec43-485b-8ceb-df6b301c8007/collection/33400242-a6257ab8-c2a8-4537-a13e-2a0e49281cc3?action=share&source=collection_link&creator=33400242"
 	},
 	"item": [
 		{
@@ -11141,8 +11141,9 @@
 			"value": ""
 		},
 		{
-			"key": "new_params",
-			"value": "1"
+			"key": "PEREM",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
